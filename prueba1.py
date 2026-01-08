@@ -188,7 +188,7 @@ def generar_indicadores_diarios():
 
     return pd.concat(indicadores_diarios, axis=1, join="inner")
 
-
+# Corro indicadores
 indicadores_m = generar_indicadores_mensual()
 indicadores_d = generar_indicadores_diarios()
 # Streamlit
@@ -196,8 +196,9 @@ st.set_page_config(
     page_title="Dashboard Económico",
     layout="wide"
 )
-
+# Titulo
 st.title("Dashboard Económico - FINAMEX")
+# Texto
 st.markdown("Visualización de indicadores macroeconómicos y financieros.")
 
 # Pestañas
@@ -205,16 +206,19 @@ tabs = st.tabs(["Inflación", "Actividad Económica", "Condiciones Financieras"]
 
 #  PESTAÑA: Inflación
 with tabs[0]:
+    #Subtitulos
     st.subheader("Indicadores de Inflación")
-    
+    # Enlisto campos a graficar
     inflacion_cols = [
         "Inflacion general anual",
         "Inflacion subyacente anual",
         "Inflacion mensual anualizada",
         "Inflación suavizada a 3 meses"
     ]
+    # Quito fechas donde no tengo valores
     df_inflacion = indicadores_m[inflacion_cols].dropna(how="any").reset_index()
 
+    # Genero funcion para establecer interpretacion
     def inflacion_leyenda(valor):
         if valor > 6:
             return "Alta presión inflacionaria"
@@ -226,11 +230,11 @@ with tabs[0]:
     for col in inflacion_cols:
         df_plot = df_inflacion[["fecha", col]].copy()
         df_plot["Interpretación"] = df_plot[col].apply(inflacion_leyenda)
-        
+        # Graifco
         fig = px.scatter(
             df_plot,
-            x="fecha",
-            y=col,
+            x="fecha", # eje x
+            y=col, # eje y
             color="Interpretación",
             title=col,
             color_discrete_map={
@@ -239,9 +243,9 @@ with tabs[0]:
                 "Controlada": "navy"
             }
         )
-
+        # Configuracion de prrsentacion
         fig.update_layout(
-            plot_bgcolor="white",
+            plot_bgcolor="white", # fondo
             paper_bgcolor="white",
             title=dict(
                 text=col,
@@ -351,6 +355,7 @@ with tabs[2]:
             )
         )
         st.plotly_chart(fig, use_container_width=True)
-
+# Leyende de fuentes
 st.markdown("*Fuentes de los datos: INEGI y Banxico*")
+
 
