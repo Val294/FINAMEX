@@ -358,4 +358,20 @@ with tabs[2]:
             paper_bgcolor="black",
             title=dict(
                 text=col,
-                font=dict(color="deepsky
+                font=dict(color="deepskyblue", size=22, family="Arial Black")
+            ),
+            xaxis=dict(
+                title="Fecha",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            yaxis=dict(
+                title="Porcentaje / Valor",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            legend=dict(
+                font=dict(color="#001f3f", size=12)
+            )
+        )
+        st.plotly_chart(fig, use_container_width=True)
