@@ -246,7 +246,7 @@ with tabs[0]:
             paper_bgcolor="white",  # fondo del contenedor
             title=dict(
                 text=col,
-                font=dict(color="deepskyblue", size=22, family="Arial Black")  # título visible
+                font=dict(color="darkblue", size=22, family="Arial Black")  # título visible
             ),
             xaxis=dict(
                 title="Fecha",
@@ -281,14 +281,14 @@ with tabs[1]:
             x="fecha",
             y=col,
             title=col,
-            color_discrete_sequence=["deepskyblue"],  # todos los puntos azul marino
+            color_discrete_sequence=["darkblue"],  # todos los puntos azul marino
         )
         fig.update_layout(
             plot_bgcolor="black",
             paper_bgcolor="black",
             title=dict(
                 text=col,
-                font=dict(color="deepskyblue", size=22, family="Arial Black")
+                font=dict(color="darkblue", size=22, family="Arial Black")
             ),
             xaxis=dict(
                 title="Fecha",
@@ -358,7 +358,7 @@ with tabs[2]:
             paper_bgcolor="white",
             title=dict(
                 text=col,
-                font=dict(color="deepskyblue", size=22, family="Arial Black")
+                font=dict(color="darkblue", size=22, family="Arial Black")
             ),
             xaxis=dict(
                 title="Fecha",
@@ -375,4 +375,5 @@ with tabs[2]:
             )
         )
         st.plotly_chart(fig, use_container_width=True)
+
 
