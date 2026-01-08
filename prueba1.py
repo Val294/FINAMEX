@@ -352,4 +352,5 @@ with tabs[2]:
         )
         st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("*Fuente de los datos: INEGI y Banxico*")
+st.markdown("*Fuentes de los datos: INEGI y Banxico*")
+
