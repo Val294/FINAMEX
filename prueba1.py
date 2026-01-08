@@ -242,8 +242,8 @@ with tabs[0]:
         )
 
         fig.update_layout(
-            plot_bgcolor="black",  # fondo de la gráfica
-            paper_bgcolor="black",  # fondo del contenedor
+            plot_bgcolor="white",  # fondo de la gráfica
+            paper_bgcolor="white",  # fondo del contenedor
             title=dict(
                 text=col,
                 font=dict(color="deepskyblue", size=22, family="Arial Black")  # título visible
@@ -354,8 +354,8 @@ with tabs[2]:
             )
         
         fig.update_layout(
-            plot_bgcolor="black",
-            paper_bgcolor="black",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
             title=dict(
                 text=col,
                 font=dict(color="deepskyblue", size=22, family="Arial Black")
@@ -375,3 +375,4 @@ with tabs[2]:
             )
         )
         st.plotly_chart(fig, use_container_width=True)
+
