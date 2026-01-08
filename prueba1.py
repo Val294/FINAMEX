@@ -191,7 +191,6 @@ def generar_indicadores_diarios():
 
 indicadores_m = generar_indicadores_mensual()
 indicadores_d = generar_indicadores_diarios()
-
 # Streamlit
 st.set_page_config(
     page_title="Dashboard Económico",
@@ -229,7 +228,7 @@ with tabs[0]:
         df_plot["Interpretación"] = df_plot[col].apply(inflacion_leyenda)
         
         fig = px.scatter(
-            df_plot,  # Usamos scatter para solo puntos
+            df_plot,
             x="fecha",
             y=col,
             color="Interpretación",
@@ -242,11 +241,11 @@ with tabs[0]:
         )
 
         fig.update_layout(
-            plot_bgcolor="white",  # fondo de la gráfica
-            paper_bgcolor="white",  # fondo del contenedor
+            plot_bgcolor="white",
+            paper_bgcolor="white",
             title=dict(
                 text=col,
-                font=dict(color="darkblue", size=22, family="Arial Black")  # título visible
+                font=dict(color="darkblue", size=22, family="Arial Black")
             ),
             xaxis=dict(
                 title="Fecha",
@@ -281,11 +280,11 @@ with tabs[1]:
             x="fecha",
             y=col,
             title=col,
-            color_discrete_sequence=["darkblue"],  # todos los puntos azul marino
+            color_discrete_sequence=["navy"],  # todos los puntos azul marino
         )
         fig.update_layout(
-            plot_bgcolor="black",
-            paper_bgcolor="black",
+            plot_bgcolor="white",
+            paper_bgcolor="white",
             title=dict(
                 text=col,
                 font=dict(color="darkblue", size=22, family="Arial Black")
@@ -319,39 +318,16 @@ with tabs[2]:
     ]
     df_fin = indicadores_d[fin_cols].dropna(how="any").reset_index()
     
-    def tasa_leyenda(valor):
-        if valor < 0:
-            return "Restrictiva"
-        elif valor < 2:
-            return "Neutral"
-        else:
-            return "Expansiva"
-    
     for col in fin_cols:
         df_plot = df_fin[["fecha", col]].copy()
         
-        if col in ["Tasa real", "Diferencia BonoM y Objetivo"]:
-            df_plot["Interpretación"] = df_plot[col].apply(tasa_leyenda)
-            fig = px.scatter(
-                df_plot,
-                x="fecha",
-                y=col,
-                color="Interpretación",
-                title=col,
-                color_discrete_map={
-                    "Restrictiva": "navy",
-                    "Neutral": "grey",
-                    "Expansiva": "orange"
-                }
-            )
-        else:
-            fig = px.scatter(
-                df_plot,
-                x="fecha",
-                y=col,
-                title=col,
-                color_discrete_sequence=["deepskyblue"]
-            )
+        fig = px.scatter(
+            df_plot,
+            x="fecha",
+            y=col,
+            title=col,
+            color_discrete_sequence=["navy"]  # puntos azul marino
+        )
         
         fig.update_layout(
             plot_bgcolor="white",
@@ -375,5 +351,3 @@ with tabs[2]:
             )
         )
         st.plotly_chart(fig, use_container_width=True)
-
-
