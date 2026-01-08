@@ -189,12 +189,10 @@ def generar_indicadores_diarios():
     return pd.concat(indicadores_diarios, axis=1, join="inner")
 
 
-
-# Cargar indicadores
 indicadores_m = generar_indicadores_mensual()
 indicadores_d = generar_indicadores_diarios()
 
-# Streamlit Config
+# Streamlit
 st.set_page_config(
     page_title="Dashboard Económico",
     layout="wide"
@@ -203,12 +201,10 @@ st.set_page_config(
 st.title("Dashboard Económico - FINAMEX")
 st.markdown("Visualización de indicadores macroeconómicos y financieros.")
 
-
 # Pestañas
 tabs = st.tabs(["Inflación", "Actividad Económica", "Condiciones Financieras"])
 
-
-# PESTAÑA: Inflación
+#  PESTAÑA: Inflación
 with tabs[0]:
     st.subheader("Indicadores de Inflación")
     
@@ -220,7 +216,6 @@ with tabs[0]:
     ]
     df_inflacion = indicadores_m[inflacion_cols].dropna(how="any").reset_index()
 
-    # Leyenda interpretativa
     def inflacion_leyenda(valor):
         if valor > 6:
             return "Alta presión inflacionaria"
@@ -233,12 +228,11 @@ with tabs[0]:
         df_plot = df_inflacion[["fecha", col]].copy()
         df_plot["Interpretación"] = df_plot[col].apply(inflacion_leyenda)
         
-        fig = px.line(
-            df_plot,
+        fig = px.scatter(
+            df_plot,  # Usamos scatter para solo puntos
             x="fecha",
             y=col,
             color="Interpretación",
-            markers=True,
             title=col,
             color_discrete_map={
                 "Alta presión inflacionaria": "red",
@@ -246,16 +240,31 @@ with tabs[0]:
                 "Controlada": "navy"
             }
         )
+
         fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            font=dict(color="navy"),
+            plot_bgcolor="black",  # fondo de la gráfica
+            paper_bgcolor="black",  # fondo del contenedor
+            title=dict(
+                text=col,
+                font=dict(color="deepskyblue", size=22, family="Arial Black")  # título visible
+            ),
+            xaxis=dict(
+                title="Fecha",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            yaxis=dict(
+                title="Porcentaje",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            legend=dict(
+                font=dict(color="#001f3f", size=12)
+            )
         )
         st.plotly_chart(fig, use_container_width=True)
 
-
 # PESTAÑA: Actividad Económica
-
 with tabs[1]:
     st.subheader("Indicadores de Actividad Económica")
     
@@ -267,18 +276,33 @@ with tabs[1]:
     df_actividad = indicadores_m[actividad_cols].dropna(how="any").reset_index()
     
     for col in actividad_cols:
-        fig = px.line(
+        fig = px.scatter(
             df_actividad,
             x="fecha",
             y=col,
-            markers=True,
             title=col,
-            color_discrete_sequence=["navy"]
+            color_discrete_sequence=["deepskyblue"],  # todos los puntos azul marino
         )
         fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            font=dict(color="navy"),
+            plot_bgcolor="black",
+            paper_bgcolor="black",
+            title=dict(
+                text=col,
+                font=dict(color="deepskyblue", size=22, family="Arial Black")
+            ),
+            xaxis=dict(
+                title="Fecha",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            yaxis=dict(
+                title="Porcentaje / Valor",
+                title_font=dict(color="#001f3f", size=14),
+                tickfont=dict(color="#001f3f", size=12)
+            ),
+            legend=dict(
+                font=dict(color="#001f3f", size=12)
+            )
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -295,7 +319,6 @@ with tabs[2]:
     ]
     df_fin = indicadores_d[fin_cols].dropna(how="any").reset_index()
     
-    # Leyenda interpretativa para tasa real y diferencia bono
     def tasa_leyenda(valor):
         if valor < 0:
             return "Restrictiva"
@@ -309,12 +332,11 @@ with tabs[2]:
         
         if col in ["Tasa real", "Diferencia BonoM y Objetivo"]:
             df_plot["Interpretación"] = df_plot[col].apply(tasa_leyenda)
-            fig = px.line(
+            fig = px.scatter(
                 df_plot,
                 x="fecha",
                 y=col,
                 color="Interpretación",
-                markers=True,
                 title=col,
                 color_discrete_map={
                     "Restrictiva": "navy",
@@ -323,18 +345,17 @@ with tabs[2]:
                 }
             )
         else:
-            fig = px.line(
+            fig = px.scatter(
                 df_plot,
                 x="fecha",
                 y=col,
-                markers=True,
                 title=col,
-                color_discrete_sequence=["navy"]
+                color_discrete_sequence=["deepskyblue"]
             )
         
         fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            font=dict(color="navy"),
-        )
-        st.plotly_chart(fig, use_container_width=True)
+            plot_bgcolor="black",
+            paper_bgcolor="black",
+            title=dict(
+                text=col,
+                font=dict(color="deepsky
