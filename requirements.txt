@@ -1,0 +1,11 @@
+requests
+warnings
+numpy
+pandas
+scipy
+yfinance
+cvxpy
+tqdm
+matplotlib
+streamlit
+plotly
